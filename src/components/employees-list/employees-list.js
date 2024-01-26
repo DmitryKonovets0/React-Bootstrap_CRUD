@@ -1,17 +1,29 @@
+import {Component} from "react";
+
 import './employees-list.css'
 import EmployeesListItem from "../employees-list-item/employees-list-item";
 
-const EmployeesList = ({data}) => {
-    const elem = data.map(item => {
+class EmployeesList extends Component{
+
+    render() {
+        const {data, onDelete} = this.props
+        this.elem = data.map(item => {
+            const {id, ...itemProps} = item
+            return (
+                <EmployeesListItem
+                    key={id}
+                    {...itemProps}
+                    onDelete={() => onDelete(id)}
+                />
+            )
+
+        })
         return (
-            <EmployeesListItem {...item}/>
+            <ul className="app-list list-group">
+                {this.elem}
+            </ul>
         )
-    })
-    return (
-        <ul className="app-list list-group">
-            {elem}
-        </ul>
-    )
+    }
 }
 
 export default EmployeesList
