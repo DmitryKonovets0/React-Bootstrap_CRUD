@@ -1,5 +1,6 @@
 import {Component} from "react";
 import './employees-list-item.css';
+import AppInfo from "../app-info/app-info";
 
 class EmployeesListItem extends Component {
     constructor(props) {
@@ -9,11 +10,7 @@ class EmployeesListItem extends Component {
             rise: false
         }
     }
-    onIncrease = () => {
-        this.setState(({increase}) => ({
-            increase: !increase
-        }))
-    }
+
     onRise = () => {
         this.setState(({rise}) => ({
             rise: !rise

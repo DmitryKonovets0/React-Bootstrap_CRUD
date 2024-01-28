@@ -14,9 +14,9 @@ class App extends Component  {
         this.state = {
             data: [
                 {name: "John C.", salary: 800, increase: false, id : 1},
-                {name: "Alex M.", salary: 3000, increase: true, id : 2},
+                {name: "Alex M.", salary: 3000, increase: false, id : 2},
                 {name: "Carl W.", salary: 5000, increase: false, id : 3}
-            ]
+            ],
         }
     }
     deleteItem = (id) => {
@@ -26,14 +26,22 @@ class App extends Component  {
             }
         })
     }
+    onIncrease = () => {
+        this.setState(({increase}) => ({
+            increase: !increase
+        }))
+    }
 
 
 
     render() {
+        const employees = this.state.data.length,
+              increased = this.state.data.filter(item => item.increase).length;
         return (
             <div className="app">
-                <AppInfo />
-
+                <AppInfo
+                    employees={employees}
+                    increased={increased}/>
                 <div className="search-panel">
                     <SearchPanel/>
                     <AppFilter/>
@@ -42,6 +50,7 @@ class App extends Component  {
                 <EmployeesList
                     data={this.state.data}
                     onDelete={this.deleteItem}
+                    onIncrease={this.onIncrease}
                 />
                 <EmployeesAddForm/>
             </div>
