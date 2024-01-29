@@ -6,7 +6,7 @@ import EmployeesListItem from "../employees-list-item/employees-list-item";
 class EmployeesList extends Component{
 
     render() {
-        const {data, onDelete} = this.props
+        const {data, onDelete, onToggleProp} = this.props
         this.elem = data.map(item => {
             const {id, ...itemProps} = item
             return (
@@ -14,7 +14,7 @@ class EmployeesList extends Component{
                     key={id}
                     {...itemProps}
                     onDelete={() => onDelete(id)}
-                />
+                    onToggleProp={(e) => onToggleProp(id, e.currentTarget.getAttribute("data-toggle") )}/>
             )
 
         })

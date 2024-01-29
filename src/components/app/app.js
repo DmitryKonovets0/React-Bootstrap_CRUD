@@ -26,9 +26,29 @@ class App extends Component  {
             }
         })
     }
-    onIncrease = () => {
-        this.setState(({increase}) => ({
-            increase: !increase
+    addItem = (name, salary) => {
+        const newItem = {
+            name,
+            salary,
+            increase: false,
+            rise: false,
+            id: this.maxId++
+        }
+        this.setState(({data}) => {
+            const newArr = [...data, newItem];
+            return {
+                data: newArr
+            }
+        });
+    }
+    onToggleProp = (id, prop) => {
+        this.setState(({data}) => ({
+            data: data.map(item => {
+                if(item.id == id ) {
+                    return {...item, [prop]: !item[prop] }
+                }
+                return item
+            })
         }))
     }
 
@@ -50,9 +70,9 @@ class App extends Component  {
                 <EmployeesList
                     data={this.state.data}
                     onDelete={this.deleteItem}
-                    onIncrease={this.onIncrease}
+                    onToggleProp={this.onToggleProp}
                 />
-                <EmployeesAddForm/>
+                <EmployeesAddForm onAdd={this.addItem}/>
             </div>
         );
     }
