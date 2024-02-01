@@ -17,8 +17,11 @@ class App extends Component  {
                 {name: "Alex M.", salary: 3000, increase: false, id : 2},
                 {name: "Carl W.", salary: 5000, increase: false, id : 3}
             ],
+            term: '',
+
         }
         this.maxId = 4
+
     }
     deleteItem = (id) => {
         this.setState(({data}) => {
@@ -42,6 +45,19 @@ class App extends Component  {
             }
         });
     }
+    searchEmp = (items, term ) => {
+        if(term.length < 1) {
+            return items
+        }
+
+        return items.filter(item => {
+            return item.name.indexOf(term) > -1
+        })
+    }
+
+    onUpdateSearch = (term) => {
+        this.setState({term});
+    }
     onToggleProp = (id, prop) => {
         this.setState(({data}) => ({
             data: data.map(item => {
@@ -56,22 +72,25 @@ class App extends Component  {
 
 
     render() {
-        const employees = this.state.data.length,
-              increased = this.state.data.filter(item => item.increase).length;
+        const {data, term} = this.state,
+              employees = this.state.data.length,
+              increased = this.state.data.filter(item => item.increase).length,
+              visibleData = this.searchEmp(data, term)
         return (
             <div className="app">
                 <AppInfo
                     employees={employees}
                     increased={increased}/>
                 <div className="search-panel">
-                    <SearchPanel/>
+                    <SearchPanel onUpdateSearch={this.onUpdateSearch} />
                     <AppFilter/>
                 </div>
 
                 <EmployeesList
-                    data={this.state.data}
+                    data={visibleData}
                     onDelete={this.deleteItem}
                     onToggleProp={this.onToggleProp}
+
                 />
                 <EmployeesAddForm onAdd={this.addItem}/>
             </div>
